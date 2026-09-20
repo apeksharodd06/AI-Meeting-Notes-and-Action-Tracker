@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeetFlow - AI Meeting Notes</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="logo">M</div>
+
+            <div>
+                <h2>MeetFlow</h2>
+                <span>Student Project</span>
+            </div>
+        </div>
+
+        <nav>
+            <a href="#dashboard" class="active">
+                📊 Dashboard
+            </a>
+
+            <a href="#newMeeting">
+                📝 New Meeting
+            </a>
+
+            <a href="#history">
+                🕘 Meeting History
+            </a>
+
+            <a href="#actionItems">
+                ✅ Action Items
+            </a>
+        </nav>
+
+        <div class="sidebar-info">
+            <strong>Feature Set B</strong>
+
+            <p>
+                AI meeting summaries,
+                action tracking and
+                searchable meeting history.
+            </p>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- HEADER -->
+        <header class="top-header">
+
+            <div>
+
+                <span class="small-title">
+                    COLLEGE PROJECT
+                </span>
+
+                <h1>
+                    AI Meeting Notes & Action Tracker
+                </h1>
+
+            </div>
+
+            <div class="system-status">
+                <span></span>
+                System Ready
+            </div>
+
+        </header>
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboard">
+
+            <div class="stats">
+
+                <div class="stat-card">
+
+                    <p>Total Meetings</p>
+
+                    <h2 id="totalMeetings">
+                        0
+                    </h2>
+
+                    <span>
+                        Saved meetings
+                    </span>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <p>Action Items</p>
+
+                    <h2 id="totalActions">
+                        0
+                    </h2>
+
+                    <span>
+                        Extracted tasks
+                    </span>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <p>Completed</p>
+
+                    <h2 id="completedActions">
+                        0
+                    </h2>
+
+                    <span>
+                        Finished tasks
+                    </span>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <p>Pending</p>
+
+                    <h2 id="pendingActions">
+                        0
+                    </h2>
+
+                    <span>
+                        Tasks remaining
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= NEW MEETING ================= -->
+
+        <section id="newMeeting" class="content-grid">
+
+            <!-- INPUT -->
+
+            <div class="card">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            01 · INPUT
+                        </span>
+
+                        <h2>
+                            Create New Meeting
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <label>
+                    Meeting Title
+                </label>
+
+                <input
+                    type="text"
+                    id="meetingTitle"
+                    placeholder="College Project Discussion"
+                >
+
+
+                <div class="two-columns">
+
+                    <div>
+
+                        <label>
+                            Meeting Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="meetingDate"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label>
+                            Upload Text File
+                        </label>
+
+                        <input
+                            type="file"
+                            id="meetingFile"
+                            accept=".txt"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <label>
+                    Meeting Notes
+                </label>
+
+                <textarea
+                    id="meetingNotes"
+                    placeholder="Write or paste your meeting notes here..."
+                ></textarea>
+
+
+                <div class="button-row">
+
+                    <button
+                        class="primary-button"
+                        onclick="generateMeeting()"
+                    >
+                        Generate Summary & Actions
+                    </button>
+
+
+                    <button
+                        class="secondary-button"
+                        onclick="clearMeeting()"
+                    >
+                        Clear
+                    </button>
+
+                </div>
+
+
+                <p id="message"></p>
+
+            </div>
+
+
+            <!-- AI OUTPUT -->
+
+            <div class="card">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            02 · AI OUTPUT
+                        </span>
+
+                        <h2>
+                            Meeting Summary
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="summary"
+                    class="summary-box"
+                >
+                    Your meeting summary will appear here.
+                </div>
+
+
+                <h3 class="sub-heading">
+                    Extracted Action Items
+                </h3>
+
+
+                <div
+                    id="generatedActions"
+                    class="generated-actions"
+                >
+                    No action items yet.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= MEETING HISTORY ================= -->
+
+        <section
+            id="history"
+            class="card full-card"
+        >
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        03 · HISTORY
+                    </span>
+
+                    <h2>
+                        Meeting History
+                    </h2>
+
+                </div>
+
+
+                <input
+                    type="text"
+                    id="searchMeeting"
+                    class="search-box"
+                    placeholder="Search meetings..."
+                    oninput="searchMeetings()"
+                >
+
+            </div>
+
+
+            <div id="meetingHistory">
+
+                <p class="empty">
+                    No meetings available.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ACTION ITEMS ================= -->
+
+        <section
+            id="actionItems"
+            class="card full-card"
+        >
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        04 · TRACK
+                    </span>
+
+                    <h2>
+                        Action Items
+                    </h2>
+
+                </div>
+
+
+                <button
+                    class="secondary-button"
+                    onclick="loadActionItems()"
+                >
+                    Refresh
+                </button>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Task
+                            </th>
+
+                            <th>
+                                Owner
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Update
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="actionTable">
+
+                        <tr>
+
+                            <td
+                                colspan="4"
+                                class="empty"
+                            >
+                                No action items yet.
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+
+            MeetFlow · AI Meeting Notes & Action Tracker ·
+            Feature Set B
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
